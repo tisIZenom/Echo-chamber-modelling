@@ -13,11 +13,13 @@
 
 ############################################################################################################
 
-# Part 0.5 importing the required libraries 
+# Part 0.5 importing the required libraries and some global variables 
 
 import networkx as nx
 import matplotlib.pyplot as plt 
 import numpy as np
+
+e = 2.718 
 
 ###########################################################################################################
 
@@ -66,20 +68,25 @@ for node in network1:
 # Part 3 defining the function. 
 
 def velocity_opinion(network1,opinions,):
-    velocity{}
+    velocity = 0
+    delta = 0
     for i in network1.nodes:
-        delta = 0 
+        
         tolerence = 1.5
         for j in network1.neighbors(i):
-            w_ij = 1 # the edge weight and the function
             r = (opinions[i] - opinions[j])
             if r < tolerence:
-                delta += e^(float(-6))(r )
-        velocity[i]
+                delta += e^((r*-6 ))(r)
+        velocity = delta 
     return velocity 
 
+##############################################################################################################
 
 
+# Part 4 running for a continous time  
+# since we cannot have continous time we substistute a huge amount of time steps 
+
+for t in range(0, 1000000):
 
 
 print("hello world")
