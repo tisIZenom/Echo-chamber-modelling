@@ -73,10 +73,10 @@ if weightedtrue == 1:
     
     if wChoice == 1:
         for u, v in G.edges():
-            G[u][v]['weight'] = np.random.uniform(-1, 1)  
+            G[u][v]['weight'] = truncated_normal(0, 1, -1, 1) 
     else :
         for u, v in G.edges():
-            G[u][v]['weight'] = np.random.uniform(0.01, 1)
+            G[u][v]['weight'] = truncated_normal(0.3, 1, 0, 1)
 
 elif weightedtrue == 0:
     for u, v in G.edges():
@@ -110,7 +110,7 @@ random_kernel = int(input("Would you like the kernel to have randomness included
 # Influence function
 def influence_kernel1(r, tolerance=1.5):
     if abs(r) < tolerance:
-        return np.exp(-6 * abs(r)) * r * (1) + ( np.random.uniform(- 1, 1 ) * random_kernel)
+        return np.exp(-6 * abs(r)) * r * (1) + ( np.random.uniform(- 1, 1 ) * random_kernel) # can you do normal here as well? 
     return 0
 
 
@@ -154,7 +154,7 @@ plt.show()
 # Simulation
 history = []
 diversity_over_time = []
-
+# kuramoto_over_time has been defined earlier 
 
 for step in range(steps):
     current_opinions = np.array([G.nodes[i]['opinion'] for i in G.nodes])
@@ -179,7 +179,7 @@ for step in range(steps):
 
     # Stopping condition: max change < 0.01 also looking for an echo chamber formation. Lets see if it works 
     if step * dt >= 10:
-        if np.max(np.abs(new_opinions - current_opinions)) < 0.001:
+        if np.max(np.abs(new_opinions - current_opinions)) < 0.0001:
             print(f"Converged at time t = {step * dt:.2f}")
             break
     if n >= 50:

@@ -65,7 +65,7 @@ ___
 	2. refer to the document for more information. 
 	3. Mainly this is true if you have a non-negative influence kernel.
 3. Can you find the convergence of the group a priory?
-	1. It is dependent upon many factors suchwhat do you classify the group of functions that allow the network to converge to a certain point.  as Linear averaging models or nonlinear averaging models
+	1. It is dependent upon many factors such as what do you classify the group of functions that allow the network to converge to a certain point.  as Linear averaging models or nonlinear averaging models
 	2. Also depends upon the distribution of the initial distribution and the connectivity of the group. 
 	3. The bounded nature of the kernel also contributes to this highly. 
 4. What are some synchrony factors you can use to measure in the network?
