@@ -1,48 +1,53 @@
-========================================== README ====================================================
 
-This is the Readme file for the modelling of echo chambers:
+___
 
-
-  - There are a lot of definitions and important facts in the code that i have written 
-  I hope to have a little more detail on the places where you can refer to in order to better understand the code.
-  When I set that up I will make sure to index it here. 
-
-
-> The environment 
+This is the Readme file for the echo chambers modelling.
+# The environment 
 
   - Language - Python - version 3.13.5 
   - OS - Arch linux 
   - Libraries used - networkx (please refer to the documentation for more details)
-                   - matplotlib
-                   - numpy 
+	  - matplotlib
+	  - numpy
+	  - networkx
+	  - pickle
 
   - the code was run in the system terminal with no extra wrappers. 
+  - Please use the latest versions of python and networkx since the code uses some new features that are provided by both. 
+  
+___
+
+# Some more information on the code. 
+
+### Echo_chambers_sim.py 
+
+- The time taken and the approximation for continous time is done through Euler integration. 
+- The opinions that are initialized in the graph initially are uniform on [-1, 1 ]
+- The edge weights however are initialized using a gaussian function using both a positive only and a negative edge weights to see if there is a difference in the consensus of the network.
+- There are two order parameters that are measured here. 
+	- One is the kuramoto parameter which measures the polarization of the group. 
+	- The other is just the standard deviation of the opinions. 
+- We have only one kernel to measure at the moment and it would be nice to have multiple kernels to see what would happen in each case. 
+- There might be a possible echo chamber formation. There is a code that measures the possible echo-chamber formation in the main loop and stops the iteration to visualize the graph. 
+- The influence kernel uses a Normal distribution randomness in each step as well. 
+- you can also load a saved graph and change the influence kernel and it's randomness. 
+
+___
 
 # Questions to understand  
-
-what are some synchrony parameters that you can measure in the end. 
-  - And also see whether if you can measure an echo chamber using this fact 
-
-
-
-also ask for an option to include randomness or not. 
 try to make an animation for the change in opinions. 
 
-Let us also try to add negative trust weights 
 
-Adding edge weights will also prove interesting. 
 
-also try to analytically prove that we can use just one type of influence kernel
-
-also change the random values to real values as in the values should be a gaussian not a uniform distribution.
-- Having a truncated normal function. 
-try to have a consensus score for before and after for the function. 
+try to track what happens if we have the same graph going through different possibilities
 
 visual tracking over time. of the kuramoto factor 
 
 there is something called greedy modularity communities in networkx look into more details in that part . 
 
 modularity of opinion aligned communities 
+
+Try to make a distribution of opinions over time.  break if
 
 Make a grand table to see how the factors affect the convergence
 
@@ -56,7 +61,7 @@ Some important/ interesting insights in this
 
 ___
 
-# Some fixes in the code
+# Some FAQs in the code
 
 1. Do all dynamical systems converge? 
 	1. Yes nonlinear systems can converge needn't be a chaotic system just because you have a nonlinear system
@@ -71,28 +76,9 @@ ___
 4. What are some synchrony factors you can use to measure in the network?
 	1. There are many parameters that can be evaluated to check the synchrony of the group.
 	2. The ones I am interested in measuring are parameters like kuramoto order parameter, and also the clustering coefficient vs local alignment. 
-5. 
+5. Can these synchrony factors predict the formation of the echo chambers?
+	1. Technically directly referring to a parameter that expresses if an echo chamber is possible it does not directly imply it. 
 
 
 
 ___
-
-numerator = 0
-denominator = 0
-
-for i in G.nodes:
-    for j in G.neighbors(i):
-        weight = G[i][j].get('weight', 1.0)
-        numerator += weight * G.nodes[j]['opinion']
-        denominator += weight
-
-weighted_estimate = numerator / denominator if denominator > 0 else 0
-___
-
-we can also see std deviation using 
-
-consensus_score = np.std([G.nodes[i]['opinion'] for i in G.nodes])
-
-___
-
-you can also have visual tracking of the opinions over time 

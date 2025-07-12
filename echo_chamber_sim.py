@@ -1,11 +1,20 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle 
 
 ###############################################################
 
 # The global variables  
 # this is useless lmaooo 
+
+print(" Welcome tp the Echo chameber simulation program. You can choose to either \n ")
+print(" create a graph or load from an existing graph. If you choose to Load an existing graph please \n ")
+print(" go through the initial prompts as that would help the initialization of the loaded graph. \n ")
+print(" If you choose to create a new graph you have many options to go through. And you can also cary the time. \n")
+print(" Thank you for using the program. \n")
+
+
 
 #########################################################################################
 
@@ -87,6 +96,25 @@ else :
 
 ######################################################################################################### 
 
+# Would you like to have the same graph to go throuh different iterations? 
+
+saved_graph = input("Would you like to Load a previous graph instead? y/n :")
+
+if saved_graph == 'y' :
+    save_graph = input("please type the name of the saved graph here (format .gpickle) : ")
+    with open(save_graph , "rb") as f: 
+        G = pickle.load(f)
+
+save_my_graph = input(" would you instead like to save the currently generated graph? y/n : ")
+
+if save_my_graph == 'y' :
+    name_graph = input(" Please write the name of your graph that you want saved.(include .pkl in the end) \n :")
+    with open(name_graph, "wb") as f:
+        pickle.dump(G, f)
+
+##########################################################################################################
+
+
 # kuramoto parameter before the time 
 
 kuramoto_over_time = []
@@ -110,7 +138,7 @@ random_kernel = int(input("Would you like the kernel to have randomness included
 # Influence function
 def influence_kernel1(r, tolerance=1.5):
     if abs(r) < tolerance:
-        return np.exp(-6 * abs(r)) * r * (1) + ( np.random.uniform(- 1, 1 ) * random_kernel) # can you do normal here as well? 
+        return np.exp(-6 * abs(r)) * r * (1) + ( truncated_normal(0, 1, -1, 1 ) * random_kernel) # can you do normal here as well? 
     return 0
 
 
@@ -184,7 +212,7 @@ for step in range(steps):
             break
     if n >= 50:
         if step * dt >= 10: 
-            if np.max(np.abs(new_opinions - current_opinions)) > 1.5:
+            if np.max(np.abs(new_opinions - current_opinions)) > 1.25:
                 print(f"Possible echo chamber formation at time t = {step * dt }")
                 break 
    
