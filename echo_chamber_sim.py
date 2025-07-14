@@ -2,17 +2,20 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle 
+from networkx.algorithms.community import greedy_modularity_communities, modularity
+
 
 ###############################################################
 
 # The global variables  
 # this is useless lmaooo 
 
-print(" Welcome tp the Echo chameber simulation program. You can choose to either \n ")
-print(" create a graph or load from an existing graph. If you choose to Load an existing graph please \n ")
-print(" go through the initial prompts as that would help the initialization of the loaded graph. \n ")
-print(" If you choose to create a new graph you have many options to go through. And you can also cary the time. \n")
-print(" Thank you for using the program. \n")
+print("\n Echo chamber simulation v0.1.17 Kernel - exponential deccay  \n ")
+print(" Welcome to  the Echo chamber simulation program. You can choose to either")
+print(" create a graph or load from an existing graph. If you choose to Load an existing graph please")
+print(" go through the initial prompts as that would help the initialization of the loaded graph.")
+print(" If you choose to create a new graph you have many options to go through. And you can also vary the time.")
+print(" Thank you for using the program.\n \n ")
 
 
 
@@ -26,7 +29,8 @@ def truncated_normal(mean, std, min_val, max_val):
             return val
 
 ########################################################################################
-# Parameters
+
+# Parameters that are most accurate to use 
 n = 108       # number of agents
 k = 5          # average number of connections
 p = 0.1        # rewiring probability
@@ -40,7 +44,7 @@ T_max = 1000 # the standard time taken may change
 T_max = int(input("what would you like the maximum time to be (type 0 for default 100 units) \n : "))
 
 if T_max == 0 :
-    T_max = 100
+    T_max = 1000
 
 steps = int(T_max / dt)
 
@@ -98,19 +102,20 @@ else :
 
 # Would you like to have the same graph to go throuh different iterations? 
 
-saved_graph = input("Would you like to Load a previous graph instead? y/n :")
+saved_graph = input("Would you like to Load a previous graph instead? y/n  \n :")
 
 if saved_graph == 'y' :
-    save_graph = input("please type the name of the saved graph here (format .gpickle) : ")
+    save_graph = input("Please type the name of the saved graph here (format .pkl) \n :")
     with open(save_graph , "rb") as f: 
         G = pickle.load(f)
 
-save_my_graph = input(" would you instead like to save the currently generated graph? y/n : ")
+save_my_graph = input("Would you instead like to save the currently generated graph? y/n \n :")
 
 if save_my_graph == 'y' :
-    name_graph = input(" Please write the name of your graph that you want saved.(include .pkl in the end) \n :")
+    name_graph = input("Please write the name of your graph that you want saved.(include .pkl in the end) \n :")
     with open(name_graph, "wb") as f:
         pickle.dump(G, f)
+
 
 ##########################################################################################################
 
@@ -207,12 +212,12 @@ for step in range(steps):
 
     # Stopping condition: max change < 0.01 also looking for an echo chamber formation. Lets see if it works 
     if step * dt >= 10:
-        if np.max(np.abs(new_opinions - current_opinions)) < 0.0001:
+        if np.max(np.abs(new_opinions - current_opinions)) < 0.01:
             print(f"Converged at time t = {step * dt:.2f}")
             break
     if n >= 50:
         if step * dt >= 10: 
-            if np.max(np.abs(new_opinions - current_opinions)) > 1.25:
+            if np.max(np.abs(new_opinions - current_opinions)) > 0.5:
                 print(f"Possible echo chamber formation at time t = {step * dt }")
                 break 
    
@@ -226,6 +231,7 @@ for step in range(steps):
     # this is for the kuramoto factor 
     kuramoto_R = compute_kuramoto(opinions)
     kuramoto_over_time.append(kuramoto_R)
+
 
 #########################################################################################
 
@@ -319,8 +325,65 @@ plt.show()
 
 ##########################################################################################
 
-
 print(f"The total time taken was {steps * dt }")
+
 ##########################################################################################
 
+# trying to visualize the echo chambers 
 
+def build_echo_chamber_graph(G, epsilon=0.2, weight_key='weight', min_weight=0.0):
+    H = nx.Graph()
+    for u, v, data in G.edges(data=True):
+        opinion_diff = abs(G.nodes[u]['opinion'] - G.nodes[v]['opinion'])
+        weight = data.get(weight_key, 1.0)
+        if opinion_diff < epsilon and weight >= min_weight:
+            H.add_edge(u, v)
+    return H
+
+echo_chamber_graph = build_echo_chamber_graph(G, epsilon=0.1, min_weight=0.0)
+chambers = list(nx.connected_components(echo_chamber_graph))
+
+
+significant_chambers = [c for c in chambers if len(c) > 3]
+
+
+
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import random
+
+# Use spring layout from the original graph
+pos = nx.spring_layout(G, seed=42)
+
+# Assign random colors to chambers
+colors = list(mcolors.TABLEAU_COLORS.values()) + list(mcolors.CSS4_COLORS.values())
+random.shuffle(colors)
+
+plt.figure(figsize=(10, 8))
+
+# Draw edges from the original graph in gray
+nx.draw_networkx_edges(G, pos, alpha=0.2)
+
+# Draw each echo chamber in a unique color
+for idx, chamber in enumerate(significant_chambers):
+    nx.draw_networkx_nodes(
+        G, pos,
+        nodelist=list(chamber),
+        node_color=colors[idx % len(colors)],
+        label=f"Chamber {idx+1}",
+        node_size=60
+    )
+
+plt.title("Echo Chambers (Opinion-Aligned & Connected)")
+plt.legend()
+plt.axis('off')
+plt.tight_layout()
+
+labels = {node: f"{G.nodes[node]['opinion']:.2f}" for node in G.nodes}
+nx.draw_networkx_labels(G, pos, labels, font_size=7)
+
+# Save to file instead of showing
+filename = f"results/echo_chamber_n{n}_k{k}_p{p}_w{weightedtrue}_ker{random_kernel}_run{step}.png"
+plt.savefig(filename, dpi=300)
+plt.show()
+plt.close()

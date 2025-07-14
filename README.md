@@ -35,13 +35,7 @@ ___
 ___
 
 # Questions to understand  
-try to make an animation for the change in opinions. 
 
-
-
-try to track what happens if we have the same graph going through different possibilities
-
-visual tracking over time. of the kuramoto factor 
 
 there is something called greedy modularity communities in networkx look into more details in that part . 
 
@@ -50,6 +44,12 @@ modularity of opinion aligned communities
 Try to make a distribution of opinions over time.  break if
 
 Make a grand table to see how the factors affect the convergence
+
+change the mean to non zero and see whether we have the same non dynamical system. 
+
+the Dunbar's number. 
+
+varying the parameters of the network will change the 
 
 
 ------------------------------------------------------------------------ 
