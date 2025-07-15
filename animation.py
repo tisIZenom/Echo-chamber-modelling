@@ -19,8 +19,8 @@ pos = nx.spring_layout(G, seed=42) # thank you ces and hitchhikers book
 fig, ax = plt.subplots(figsize=(6,6))
 
 # 2. Deffuant parameters
-mu = 0.7          # convergence parameter (how much they adjust)
-eps = 1.5        # confidence bound: only interact if |o_i - o_j| < eps
+mu = 20          # convergence parameter (how much they adjust)
+eps = 2       # confidence bound: only interact if |o_i - o_j| < eps
 steps = 2000       # number of update steps
 
 # 3. Draw initial frame

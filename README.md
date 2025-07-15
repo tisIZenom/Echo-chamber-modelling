@@ -31,6 +31,7 @@ ___
 - There might be a possible echo chamber formation. There is a code that measures the possible echo-chamber formation in the main loop and stops the iteration to visualize the graph. 
 - The influence kernel uses a Normal distribution randomness in each step as well. 
 - you can also load a saved graph and change the influence kernel and it's randomness. 
+- The animation.py is based on the deffaunt model 
 
 ___
 

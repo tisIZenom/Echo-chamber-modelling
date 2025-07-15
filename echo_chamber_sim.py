@@ -196,6 +196,7 @@ for step in range(steps):
     for i in G.nodes:
         delta = 0
         for j in G.neighbors(i):
+            current_opinions = np.clip(current_opinions, -1, 1)
             r = current_opinions[j] - current_opinions[i]
             w = G[i][j].get('weight', 1.0 ) # the 1.0 is for the part where it isnt assigned but lets see 
             delta += influence_kernel1(r) * w 
@@ -212,12 +213,12 @@ for step in range(steps):
 
     # Stopping condition: max change < 0.01 also looking for an echo chamber formation. Lets see if it works 
     if step * dt >= 10:
-        if np.max(np.abs(new_opinions - current_opinions)) < 0.01:
+        if np.max(np.abs(new_opinions - current_opinions)) < 0.0001:
             print(f"Converged at time t = {step * dt:.2f}")
             break
     if n >= 50:
         if step * dt >= 10: 
-            if np.max(np.abs(new_opinions - current_opinions)) > 0.5:
+            if np.max(np.abs(new_opinions - current_opinions)) > 2:
                 print(f"Possible echo chamber formation at time t = {step * dt }")
                 break 
    

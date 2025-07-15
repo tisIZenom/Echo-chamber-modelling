@@ -28,4 +28,84 @@ This number shows the probability of the two neighbours of a node being connecte
 
 shows how clustered and close knit a locality is. 
 
-We will have values from 
+We will have values from 0.1 to 0.2. 
+
+___
+
+## Other parameters 
+
+#### Randomness in the kernel 
+
+- So far the kernel has usually never had an extra term that signifies the external randomness that influences an agent's opinion. 
+- However in the code introducing just the randomness in the code does not change the consensus of a group 
+	- This is only in the case of a non weighted or a weighted positive graph 
+- ![[Pasted image 20250715112805.png]]
+
+Here is an illustrated example of n = 100, p = 5 and k = 0.1
+In this scenario we are using a positive weighted graph. 
+
+In case 1 we have a positive weighted graph with randomness in the kernel. 
+
+![[Pasted image 20250715113700.png]]
+
+The group mostly converges except the two dots who are out of the tolerance limit for interacting. 
+
+![[Pasted image 20250715113809.png]]
+
+![[Pasted image 20250715113835.png]]
+
+This is the standard deviation for the same. 
+
+This is the kuramoto order parameter 
+![[Pasted image 20250715113914.png]]
+
+As we can see the graph is jagged and not smooth due to the randomness/noise perturbing it. Here are the opinions of the individuals. 
+
+![[Pasted image 20250715114133.png]]
+
+
+
+
+
+Now let us take a look at the same graph without randomness in the kernel.
+
+The nodes converge nicely producing this distribution at time t = 96.00
+
+![[Pasted image 20250715114745.png]]
+
+This is the standard deviation and the kuromoto order parameter throughout the time. 
+
+![[Pasted image 20250715114835.png]]
+
+The final distribution of the opinions looks as follows. 
+
+![[Pasted image 20250715114941.png]]
+
+As we can observe adding randomness and positive weighted parameters usually gives rise to group consensus. The only way a group can be left out and form a chamber is when they have opinions out of tolerance with their neighbours. 
+
+Let us now look at what happens when we have negative weights. 
+
+![[Pasted image 20250715115611.png]]
+
+This is with no randomness in the kernel. 
+
+![[Pasted image 20250715115708.png]]
+
+![[Pasted image 20250715115730.png]]
+
+as we can see we have increase in std deviation. 
+
+![[Pasted image 20250715115813.png]]
+
+![[Pasted image 20250715115936.png]]
+
+The group stay stagnant at these points at time t = 45.62. 
+As we can see we have echo chambers that start forming. 
+
+Let us look at the same graph with randomness included. 
+
+![[Pasted image 20250715120539.png]]
+
+![[Pasted image 20250715120557.png]]
+
+![[Pasted image 20250715120722.png]]
