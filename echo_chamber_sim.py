@@ -138,12 +138,16 @@ pos = nx.spring_layout(G)
 
 random_kernel = int(input("Would you like the kernel to have randomness included (type the amount required, from 0 to 1) \n :"))
 
+# is the environment fair? make a variable for that. 
+
+fairness = float(input("Do you want your environment to be fair? where is the mean of the probability funtion?(input from -1,1 ) \n :"))
+
 
 
 # Influence function
 def influence_kernel1(r, tolerance=1.5):
     if abs(r) < tolerance:
-        return np.exp(-6 * abs(r)) * r * (1) + ( truncated_normal(0, 1, -1, 1 ) * random_kernel) # can you do normal here as well? 
+        return np.exp(-6 * abs(r)) * r * (1) + ( truncated_normal(fairness, 1, -1, 1 ) * random_kernel) # can you do normal here as well? 
     return 0
 
 

@@ -109,3 +109,24 @@ Let us look at the same graph with randomness included.
 ![[Pasted image 20250715120557.png]]
 
 ![[Pasted image 20250715120722.png]]
+
+
+The influence kernel was taken to be :
+
+$$ \huge 
+\phi(r) = e^{-6r}
+$$
+The total velocity function would be :
+$$ \huge 
+\frac{do_{i}}{dt} = \sum_{j} w_{ij} \phi(r) r + \sigma\beta
+$$
+
+
+
+
+Why choose this model over the others? 
+
+They maybe dynamic however they usually produce consensus when time steps became large enough. And most models are not continous in time. 
+
+Can this model also have consensus? yes. 
+
